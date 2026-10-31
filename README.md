@@ -73,7 +73,20 @@ Con esas cabeceras pide la letra al mismo servidor que la pestaña de letras de 
 
 ### Versión de Spotify
 
-Las letras **solo se han probado con Spotify 9.1.90.2270**. No se ha probado en otras versiones: Spotify cambia sus clases internas en cada actualización, y aunque LockArt busca la clase que necesita de forma automática con DexKit, una actualización puede romper las letras hasta que se adapte el módulo. La carátula, el modo música y la pantalla ambiente no dependen de la versión de Spotify.
+Las letras **solo se han probado con Spotify 9.1.90.2270**. No se ha probado en otras versiones: Spotify cambia sus clases internas en cada actualización, y una actualización puede romper las letras hasta que se adapte el módulo. La carátula, el modo música y la pantalla ambiente no dependen de la versión de Spotify.
+
+Para que resista mejor las actualizaciones, LockArt no usa los nombres ofuscados de Spotify, sino «huellas» que no cambian al compilar, como hacen módulos como WaEnhancer:
+
+- **La canción** sale de `MediaSession`, que es de Android y no de Spotify.
+- **La clase de cabeceras de OkHttp** se busca con DexKit por tres huellas independientes: el texto que usa `Headers.of`, el texto con el que `toString` oculta valores sensibles y su estructura (un `Iterable` con un campo `String[]`, constructor `(String[])` y un método que devuelve `TreeMap`). Cada candidato se valida antes de usarse, y el resultado se guarda por versión instalada de Spotify.
+- **La respuesta del servidor** se lee tanto en protobuf como en JSON, el formato de respaldo de Spotify.
+- **Cada función va por separado**: si las letras fallan, lo demás sigue funcionando.
+
+Con cada versión nueva de Spotify, el log dice qué huellas siguen encontrando la clase, así se ve si alguna se rompió antes de que fallen todas:
+
+```bash
+adb logcat -s LockArt | grep huellas
+```
 
 Se recomienda **evitar que Play Store actualice Spotify automáticamente** con [zygisk-detach](https://github.com/j-hc/zygisk-detach) o un módulo similar, que desvincula la app de Play Store, y actualizarla solo cuando confirmes que la nueva versión funciona.
 
@@ -81,7 +94,7 @@ Se recomienda **evitar que Play Store actualice Spotify automáticamente** con [
 
 1. Descarga `LockArt-x.y.apk` de la página de [Releases](../../releases) e instálalo:
    ```bash
-   adb install LockArt-4.6.apk
+   adb install LockArt-4.7.apk
    ```
 2. En LSPosed, activa **Carátula en bloqueo**. Su alcance es **Interfaz del sistema** (`com.android.systemui`) y **Spotify** (`com.spotify.music`). Si Spotify no queda marcado, la app muestra **Activar en Spotify** y se lo pide a LSPosed.
 3. Abre la app y pulsa **Reiniciar SystemUI** (pide root). Cierra y vuelve a abrir Spotify.
