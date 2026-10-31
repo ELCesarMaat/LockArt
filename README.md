@@ -94,7 +94,7 @@ Se recomienda **evitar que Play Store actualice Spotify automáticamente** con [
 
 1. Descarga `LockArt-x.y.apk` de la página de [Releases](../../releases) e instálalo:
    ```bash
-   adb install LockArt-4.7.apk
+   adb install LockArt-4.8.apk
    ```
 2. En LSPosed, activa **Carátula en bloqueo**. Su alcance es **Interfaz del sistema** (`com.android.systemui`) y **Spotify** (`com.spotify.music`). Si Spotify no queda marcado, la app muestra **Activar en Spotify** y se lo pide a LSPosed.
 3. Abre la app y pulsa **Reiniciar SystemUI** (pide root). Cierra y vuelve a abrir Spotify.
@@ -134,11 +134,40 @@ Para ver el log del módulo (nunca escribe el texto de las letras):
 adb logcat -s LockArt
 ```
 
-## Código fuente y modificaciones
+## Idiomas
 
-Este repositorio publica **solo el APK compilado**. Si quieres modificarlo o adaptarlo a otra versión de Android, otra ROM u otra versión de Spotify, **contáctame** abriendo un [issue](../../issues) o por GitHub ([@ELCesarMaat](https://github.com/ELCesarMaat)).
+La app está en **español** e **inglés**. Usa el idioma del teléfono y, si no es ninguno de los dos, se muestra en inglés. También se puede elegir solo para esta app en *Ajustes > Sistema > Idiomas > Idiomas de las apps*.
 
-Para compilarlo se necesita Android Studio con JDK 17 o superior, Android SDK 37, el Gradle del proyecto (AGP 9, Kotlin 2, Jetpack Compose con Material 3 Expressive), `io.github.libxposed:api:102` y DexKit. La app y el gancho se comunican con un permiso de firma, así que una versión firmada con otra clave no se instala encima de esta.
+## Código fuente
+
+El código está en este repositorio, bajo la licencia [Apache-2.0](LICENSE). Los créditos de las partes adaptadas están en [NOTICE](NOTICE).
+
+| Archivo | Qué hace |
+|---|---|
+| `LockArtModule.java` | Entrada del módulo (libxposed 102): instala los ganchos en SystemUI y en Spotify y maneja la recarga en caliente. |
+| `ArtController.java` | Carátula, velo, sesiones multimedia y letras dentro de SystemUI. |
+| `MusicMode.java` | Modo música, reloj pequeño, smartspace y pantalla ambiente forzada. |
+| `AodGuard.java` | Apaga la pantalla ambiente en el bolsillo o boca abajo. |
+| `LyricsView.java`, `AodToggleView.java` | Dibujo de las letras con sus animaciones y la luna del bloqueo. |
+| `SpotifyLyrics.java`, `SpotifyProto.java` | Proveedor de letras dentro de Spotify: huellas con DexKit, petición y lectura de la respuesta. |
+| `MainActivity.kt`, `SettingsScreen.kt` | App de ajustes en Jetpack Compose con Material 3 Expressive. |
+
+**Compilar:**
+
+1. Android Studio con JDK 17 o superior y el Android SDK 37.
+2. Crea `keystore.properties` en la raíz con tu clave de firma (no se sube al repositorio):
+   ```properties
+   storeFile=mi-clave.keystore
+   storePassword=...
+   keyAlias=...
+   keyPassword=...
+   ```
+   Sin ese archivo, la versión release se firma con la clave de depuración.
+3. `./gradlew assembleRelease` (o `build.ps1` en Windows, que deja el APK en `build\LockArt.apk`).
+
+La app y el gancho se comunican con un permiso de firma, así que un APK firmado con otra clave no se instala encima del publicado aquí: hay que desinstalar el anterior.
+
+Si quieres adaptarlo a otra versión de Android, otra ROM u otra versión de Spotify, abre un [issue](../../issues) o un pull request.
 
 ## Créditos
 
