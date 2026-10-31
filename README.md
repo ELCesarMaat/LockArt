@@ -8,6 +8,15 @@ Módulo LSPosed que vuelve a mostrar la **carátula de la música a pantalla com
   <img src="docs/ajustes.png" alt="App de ajustes con la vista previa de la animación de las letras" width="300">
 </p>
 
+## Capturas
+
+| Letras en el bloqueo | Con el reproductor | Pantalla ambiente |
+|:---:|:---:|:---:|
+| <img src="docs/letras.png" alt="Bloqueo con la letra sincronizada sobre la carátula y la luna de pantalla ambiente" width="240"> | <img src="docs/reproductor.png" alt="Bloqueo con el reproductor de Spotify y la letra debajo" width="240"> | <img src="docs/aod.png" alt="Pantalla ambiente con la canción bajo el reloj y la letra" width="240"> |
+| Modo música: sin reproductor ni notificaciones, con la luna para la pantalla ambiente. | Sin modo música, la letra va bajo el reproductor. | AOD con la canción bajo el reloj y la letra, aunque el AOD esté desactivado en Ajustes. |
+
+*En las capturas, la letra original se reemplazó por texto de ejemplo para respetar los derechos de autor; el resto de la pantalla es tal cual se ve en el teléfono.*
+
 ## Qué hace
 
 **Carátula**
