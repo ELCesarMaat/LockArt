@@ -71,6 +71,12 @@ Con esas cabeceras pide la letra al mismo servidor que la pestaña de letras de 
 - Root (KernelSU o Magisk) y un LSPosed con la **API moderna 102** (por ejemplo LSPosed 2.2 o superior). Las versiones de LSPosed que solo cargan módulos antiguos no lo verán.
 - Para las letras: Spotify y tu sesión iniciada en él.
 
+### Versión de Spotify
+
+Las letras **solo se han probado con Spotify 9.1.90.2270**. No se ha probado en otras versiones: Spotify cambia sus clases internas en cada actualización, y aunque LockArt busca la clase que necesita de forma automática con DexKit, una actualización puede romper las letras hasta que se adapte el módulo. La carátula, el modo música y la pantalla ambiente no dependen de la versión de Spotify.
+
+Se recomienda **evitar que Play Store actualice Spotify automáticamente** con [zygisk-detach](https://github.com/j-hc/zygisk-detach) o un módulo similar, que desvincula la app de Play Store, y actualizarla solo cuando confirmes que la nueva versión funciona.
+
 ## Instalarlo
 
 1. Descarga `LockArt-x.y.apk` de la página de [Releases](../../releases) e instálalo:
